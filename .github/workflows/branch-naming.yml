@@ -8,7 +8,7 @@ jobs:
   check-branch-name:
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Check branch name (Linux)
