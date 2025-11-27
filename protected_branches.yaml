@@ -1,0 +1,6 @@
+protected:
+  - main
+  - develop
+  - release/*
+  - feature/*
+  - bugfix/*
