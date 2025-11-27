@@ -16,7 +16,7 @@ def cleanup_stale_branches():
             continue
         # Example: print or delete (uncomment next line to actually delete)
         print(f"Would delete branch: {branch}")
-        # subprocess.run(["git", "push", "origin", "--delete", branch])
+        subprocess.run(["git", "push", "origin", "--delete", branch])
 
 if __name__ == "__main__":
     cleanup_stale_branches()
