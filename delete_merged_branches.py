@@ -44,10 +44,11 @@ def delete_remote_branch(branch):
     print(f"Deleting remote branch: {branch}")
     subprocess.run(["git", "push", "origin", "--delete", branch])
 
+import os
 if __name__ == "__main__":
-    github_token = input("Enter your GitHub token: ").strip()
-    owner = input("Repository owner: ").strip()
-    repo = input("Repository name: ").strip()
+    github_token = os.environ.get("GITHUB_TOKEN") or input("Enter your GitHub token: ").strip()
+    owner = os.environ.get("REPO_OWNER") or input("Repository owner: ").strip()
+    repo = os.environ.get("REPO_NAME") or input("Repository name: ").strip()
     days_old = 2
     protected_patterns = load_protected_patterns()
     merged_branches = get_merged_pr_branches(github_token, owner, repo, days_old)
