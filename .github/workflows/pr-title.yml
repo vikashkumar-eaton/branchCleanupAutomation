@@ -1,0 +1,19 @@
+name: Enforce PR Title Naming
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+jobs:
+  pr-title-check:
+    runs-on: windows-latest
+    steps:
+      - name: Check PR title
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pattern = /^YUK-\d+: .+/;
+            const prTitle = context.payload.pull_request.title;
+            if (!pattern.test(prTitle)) {
+              core.setFailed('PR title must start with YUK-<digits>: <description>. Example: YUK-123: Add new feature.\n\nTo fix: Go to the Pull Request page on GitHub, click the PR title at the top, edit it to match the required format, and save. The check will re-run automatically.');
+            }
