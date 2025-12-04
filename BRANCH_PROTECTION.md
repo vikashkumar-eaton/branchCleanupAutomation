@@ -54,6 +54,23 @@ Branches matching these names or patterns will be protected from deletion by cle
 3. The workflow uses a GitHub token stored as a repository secret for authentication.
 4. You can also trigger the workflow manually from the GitHub Actions tab.
 
+## Enforcing PR Naming Convention
+
+Pull request titles must start with `YUK-` followed by one or more digits, then a colon, and then any description. For example:
+
+```
+YUK-123: Add new feature for user login
+YUK-4567: Fix bug in payment processing
+```
+
+This is enforced by a GitHub Actions workflow. PRs that do not follow this pattern will fail the check and must be renamed.
+
+**How to update the PR title:**
+- Go to the Pull Request page on GitHub.
+- Click the PR title at the top (it becomes editable).
+- Edit the title to match the required format (e.g., `YUK-123: Add new feature`).
+- Save or press Enter. The check will re-run automatically.
+
 > **Note:** Actual deletion in both scripts is protected by the patterns in `protected_branches.yaml`. Review and uncomment the deletion line in scripts if you wish to enable real branch deletion.
 
 ## Maintainers
