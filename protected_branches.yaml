@@ -1,7 +1,15 @@
 protected:
   - main
   - develop
-  - release/*
-  - feature/*
-  - bugfix/*
-  - hotfix/*
+  - release/9.0
+  - release/9.1
+  - release/9.2
+  - release/9.3
+  - release/9.4
+  - release/9.5
+  - release/9.6
+  - release/9.7
+  - release/9.8
+  - release/10.0
+  - release/10.1
+
