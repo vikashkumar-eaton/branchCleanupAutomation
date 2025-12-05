@@ -10,13 +10,15 @@ jobs:
     steps:
       - name: Extract JIRA ID from branch
         id: extract_jira
+        shell: pwsh
         run: |
-          BRANCH_NAME="${{ github.head_ref }}"
-          if [[ "$BRANCH_NAME" =~ ([A-Za-z]+-[0-9]+) ]]; then
-            echo "JIRA_ID=${BASH_REMATCH[1]}" >> $GITHUB_ENV
-          else
-            echo "JIRA_ID=" >> $GITHUB_ENV
-          fi
+          $branchName = "${{ github.head_ref }}"
+          if ($branchName -match '([A-Za-z]+-[0-9]+)') {
+            echo "JIRA_ID=$($Matches[1])" >> $env:GITHUB_ENV
+          } else {
+            echo "JIRA_ID=" >> $env:GITHUB_ENV
+          }
+
       - name: Update PR Title
         if: env.JIRA_ID != ''
         uses: peter-evans/pull-request-title@v3
