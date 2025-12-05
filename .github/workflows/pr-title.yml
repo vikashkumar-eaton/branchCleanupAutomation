@@ -19,9 +19,23 @@ jobs:
             echo "JIRA_ID=" >> $env:GITHUB_ENV
           }
 
-      - name: Update PR Title
+      - name: Update PR Title via API
         if: env.JIRA_ID != ''
-        uses: peter-evans/pull-request-title@v3
-        with:
-          title: "${{ env.JIRA_ID }} - ${{ github.event.pull_request.title }}"
-          github_token: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
+        shell: pwsh
+        run: |
+          $newTitle = "${{ env.JIRA_ID }} - ${{ github.event.pull_request.title }}"
+          $prNumber = ${{ github.event.pull_request.number }}
+          $repo = "${{ github.repository }}"
+          $token = "${{ secrets.PERSONAL_GITHUB_TOKEN }}"
+
+          $headers = @{
+            Authorization = "Bearer $token"
+            Accept        = "application/vnd.github+json"
+          }
+
+          $body = @{ title = $newTitle } | ConvertTo-Json
+
+          Invoke-RestMethod -Uri "https://api.github.com/repos/$repo/pulls/$prNumber" `
+                            -Method PATCH `
+                            -Headers $headers `
+                            -Body $body
