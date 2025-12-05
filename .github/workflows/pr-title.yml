@@ -26,23 +26,21 @@ jobs:
         run: |
           $currentTitle = "${{ github.event.pull_request.title }}"
           $jiraId = "${{ env.JIRA_ID }}"
-          if ($currentTitle -notmatch "^$jiraId(\s*:)\s*") {
-            $newTitle = "$jiraId : $currentTitle"
-            $prNumber = ${{ github.event.pull_request.number }}
-            $repo = "${{ github.repository }}"
-            $token = "${{ secrets.PERSONAL_GITHUB_TOKEN }}"
+          # Remove any existing JIRA ID at the start
+          $newTitle = $currentTitle -replace '^[A-Za-z]+-[0-9]+\s*:\s*', ''
+          $newTitle = "$jiraId : $newTitle".Trim()
+          $prNumber = ${{ github.event.pull_request.number }}
+          $repo = "${{ github.repository }}"
+          $token = "${{ secrets.PERSONAL_GITHUB_TOKEN }}"
 
-            $headers = @{
-              Authorization = "Bearer $token"
-              Accept        = "application/vnd.github+json"
-            }
-
-            $body = @{ title = $newTitle } | ConvertTo-Json
-
-            Invoke-RestMethod -Uri "https://api.github.com/repos/$repo/pulls/$prNumber" `
-                              -Method PATCH `
-                              -Headers $headers `
-                              -Body $body
-          } else {
-            Write-Host "Title already starts with JIRA ID. No update needed."
+          $headers = @{
+            Authorization = "Bearer $token"
+            Accept        = "application/vnd.github+json"
           }
+
+          $body = @{ title = $newTitle } | ConvertTo-Json
+
+          Invoke-RestMethod -Uri "https://api.github.com/repos/$repo/pulls/$prNumber" `
+                            -Method PATCH `
+                            -Headers $headers `
+                            -Body $body
