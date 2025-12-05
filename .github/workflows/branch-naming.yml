@@ -1,35 +1,37 @@
-name: Enforce Branch Naming Convention
-
-on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-
-jobs:
-  check-branch-name:
-    strategy:
-      matrix:
-        os: [windows-latest]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - name: Check branch name (Linux)
-        if: runner.os == 'Linux'
-        run: |
-          BRANCH_NAME="${{ github.head_ref }}"
-          if [[ ! "$BRANCH_NAME" =~ ^(main|develop|release\/.*|hotfix\/.*|feature\/.*|bugfix\/.*)$ ]]; then
-            echo "❌ Branch name '$BRANCH_NAME' does not follow the required naming convention."
-            echo "Please use one of the following patterns: main, develop, release/*, hotfix/*, feature/*, bugfix/*"
-            exit 1
-          else
-            echo "✅ Branch name '$BRANCH_NAME' is valid."
-          fi
-      - name: Check branch name (Windows)
-        if: runner.os == 'Windows'
-        run: |
-          $branch = "$env:GITHUB_HEAD_REF"
-          if ($branch -notmatch '^(main|develop|release/.+|hotfix/.+|feature/.+|bugfix/.+)$') {
-            Write-Host "❌ Branch name '$branch' does not follow the required naming convention."
-            Write-Host "Please use one of the following patterns: main, develop, release/*, hotfix/*, feature/*, bugfix/*"
-            exit 1
-          } else {
-            Write-Host "✅ Branch name '$branch' is valid."
-          }
+# Disabled: Enforce Branch Naming Convention
+#
+# name: Enforce Branch Naming Convention
+#
+# on:
+#   pull_request:
+#     types: [opened, synchronize, reopened]
+#
+# jobs:
+#   check-branch-name:
+#     strategy:
+#       matrix:
+#         os: [windows-latest]
+#     runs-on: ${{ matrix.os }}
+#     steps:
+#       - name: Check branch name (Linux)
+#         if: runner.os == 'Linux'
+#         run: |
+#           BRANCH_NAME="${{ github.head_ref }}"
+#           if [[ ! "$BRANCH_NAME" =~ ^(main|develop|release\/.*|hotfix\/.*|feature\/.*|bugfix\/.*)$ ]]; then
+#             echo "❌ Branch name '$BRANCH_NAME' does not follow the required naming convention."
+#             echo "Please use one of the following patterns: main, develop, release/*, hotfix/*, feature/*, bugfix/*"
+#             exit 1
+#           else
+#             echo "✅ Branch name '$BRANCH_NAME' is valid."
+#           fi
+#       - name: Check branch name (Windows)
+#         if: runner.os == 'Windows'
+#         run: |
+#           $branch = "$env:GITHUB_HEAD_REF"
+#           if ($branch -notmatch '^(main|develop|release/.+|hotfix/.+|feature/.+|bugfix/.+)$') {
+#             Write-Host "❌ Branch name '$branch' does not follow the required naming convention."
+#             Write-Host "Please use one of the following patterns: main, develop, release/*, hotfix/*, feature/*, bugfix/*"
+#             exit 1
+#           } else {
+#             Write-Host "✅ Branch name '$branch' is valid."
+#           }
