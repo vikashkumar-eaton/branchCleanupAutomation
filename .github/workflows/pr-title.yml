@@ -14,7 +14,8 @@ jobs:
         run: |
           $branchName = "${{ github.head_ref }}"
           if ($branchName -match '([A-Za-z]+-[0-9]+)') {
-            echo "JIRA_ID=$($Matches[1])" >> $env:GITHUB_ENV
+            $jiraId = $Matches[1].ToUpper()
+            echo "JIRA_ID=$jiraId" >> $env:GITHUB_ENV
           } else {
             echo "JIRA_ID=" >> $env:GITHUB_ENV
           }
@@ -23,7 +24,7 @@ jobs:
         if: env.JIRA_ID != ''
         shell: pwsh
         run: |
-          $newTitle = "${{ env.JIRA_ID }} - ${{ github.event.pull_request.title }}"
+          $newTitle = "${{ env.JIRA_ID }} : ${{ github.event.pull_request.title }}"
           $prNumber = ${{ github.event.pull_request.number }}
           $repo = "${{ github.repository }}"
           $token = "${{ secrets.PERSONAL_GITHUB_TOKEN }}"
