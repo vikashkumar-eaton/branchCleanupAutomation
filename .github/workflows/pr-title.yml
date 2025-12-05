@@ -24,7 +24,7 @@ jobs:
         if: env.JIRA_ID != ''
         shell: pwsh
         run: |
-          $newTitle = "${{ env.JIRA_ID }} - ${{ github.event.pull_request.title }}"
+          $newTitle = "${{ env.JIRA_ID }} : ${{ github.event.pull_request.title }}"
           $prNumber = ${{ github.event.pull_request.number }}
           $repo = "${{ github.repository }}"
           $token = "${{ secrets.PERSONAL_GITHUB_TOKEN }}"
